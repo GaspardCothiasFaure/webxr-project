@@ -64,11 +64,10 @@ function init() {
             );
         
         
-            let goalPos = {x: 0, y: 0, z: 0};
-            let goalScale = {x: 0.1, y: 0.1, z: 0.1};
+            let goalScale = {x:1, y:1, z:1};
         
             goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-            goal.position.set(goalPos.x,goalPos.y,goalPos.z);
+            goal.position.setFromMatrixPosition( reticle.matrix );
         
         
             //////// RENDER
