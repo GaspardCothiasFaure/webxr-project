@@ -5,6 +5,7 @@ import { GLTFLoader } from './lib/GLTFLoader.js';
 
 let goal= new THREE.Object3D();
 
+
 const loader = new GLTFLoader();
 
 let container;
