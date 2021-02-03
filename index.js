@@ -6,7 +6,7 @@ let container;
 let camera, scene, renderer;
 let controller;
 
-let reticle;
+// let reticle;
 
 let hitTestSource = null;
 let hitTestSourceRequested = false;
@@ -46,28 +46,24 @@ function init() {
     
     function onSelect() {
 
-        if ( reticle.visible ) {
-
-            loader.load(
+        loader.load(
         
-                './assets/football_goal/scene.gltf',
-                
-                function ( gltf ) {
-                    field = gltf.scene.children[0];
-                    field.material = new THREE.MeshLambertMaterial();
-                    goal.add(field)
-                }
-            );
+            './assets/football_goal/scene.gltf',
+            
+            function ( gltf ) {
+                field = gltf.scene.children[0];
+                field.material = new THREE.MeshLambertMaterial();
+                goal.add(field)
+            }
+        );
 
-            let goalPos = {x: 0, y: 0, z: 0};
-            let goalScale = {x: 0.1, y: 0.1, z: 0.1};
+        let goalPos = {x: 0, y: 0, z: 0};
+        let goalScale = {x: 0.1, y: 0.1, z: 0.1};
 
-            goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-            goal.position.set(goalPos.x,goalPos.y,goalPos.z);
+        goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
+        goal.position.set(goalPos.x,goalPos.y,goalPos.z);
 
-            scene.add(goal);
-
-        }
+        scene.add(goal);
 
     }
 
@@ -144,12 +140,12 @@ function render( timestamp, frame ) {
 
                 const hit = hitTestResults[ 0 ];
 
-                reticle.visible = true;
-                reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+                // reticle.visible = true;
+                // reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
 
             } else {
 
-                reticle.visible = false;
+                // reticle.visible = false;
 
             }
 
