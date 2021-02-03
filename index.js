@@ -1,19 +1,20 @@
 import * as THREE from './lib/three.module.js';
 import { ARButton } from './lib/ARButton.js';
+
 import { GLTFLoader } from './lib/GLTFLoader.js';
+
+let goal= new THREE.Object3D();
+
+const loader = new GLTFLoader();
 
 let container;
 let camera, scene, renderer;
 let controller;
 
-// let reticle;
+let reticle;
 
 let hitTestSource = null;
 let hitTestSourceRequested = false;
-
-const loader = new GLTFLoader();
-
-let goal= new THREE.Object3D();
 
 init();
 animate();
@@ -43,27 +44,44 @@ function init() {
 
     document.body.appendChild( ARButton.createButton( renderer, { requiredFeatures: [ 'hit-test' ] } ) );
 
-    
+    //
+
+    const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
+
     function onSelect() {
 
-        loader.load(
+        if ( reticle.visible ) {
+
+            loader.load(
         
-            './assets/football_goal/scene.gltf',
-            
-            function ( gltf ) {
-                field = gltf.scene.children[0];
-                field.material = new THREE.MeshLambertMaterial();
-                goal.add(field)
-            }
-        );
+                './assets/football_goal/scene.gltf',
+                
+                function ( gltf ) {
+                    field = gltf.scene.children[0];
+                    field.material = new THREE.MeshLambertMaterial();
+                    goal.add(field)
+                }
+            );
+        
+        
+            let goalPos = {x: 0, y: 0, z: 0};
+            let goalScale = {x: 0.1, y: 0.1, z: 0.1};
+        
+            goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
+            goal.position.set(goalPos.x,goalPos.y,goalPos.z);
+        
+        
+            //////// RENDER
+        
+            scene.add(goal);
 
-        let goalPos = {x: 0, y: 0, z: 0};
-        let goalScale = {x: 0.1, y: 0.1, z: 0.1};
+            const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+            const mesh = new THREE.Mesh( geometry, material );
+            mesh.position.setFromMatrixPosition( reticle.matrix );
+            mesh.scale.y = Math.random() * 2 + 1;
+            scene.add( mesh );
 
-        goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-        goal.position.set(goalPos.x,goalPos.y,goalPos.z);
-
-        scene.add(goal);
+        }
 
     }
 
@@ -71,13 +89,13 @@ function init() {
     controller.addEventListener( 'select', onSelect );
     scene.add( controller );
 
-    // reticle = new THREE.Mesh(
-    //     new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
-    //     new THREE.MeshBasicMaterial()
-    // );
-    // reticle.matrixAutoUpdate = false;
-    // reticle.visible = false;
-    // scene.add( reticle );
+    reticle = new THREE.Mesh(
+        new THREE.RingGeometry( 0.15, 0.2, 32 ).rotateX( - Math.PI / 2 ),
+        new THREE.MeshBasicMaterial()
+    );
+    reticle.matrixAutoUpdate = false;
+    reticle.visible = false;
+    scene.add( reticle );
 
     //
 
@@ -140,12 +158,12 @@ function render( timestamp, frame ) {
 
                 const hit = hitTestResults[ 0 ];
 
-                // reticle.visible = true;
-                // reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+                reticle.visible = true;
+                reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
 
             } else {
 
-                // reticle.visible = false;
+                reticle.visible = false;
 
             }
 
