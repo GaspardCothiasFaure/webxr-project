@@ -3,7 +3,7 @@ import { ARButton } from './lib/ARButton.js';
 
 import { GLTFLoader } from './lib/GLTFLoader.js';
 
-let goal;
+let goal = new THREE.Object3D();
 
 
 const loader = new GLTFLoader();
