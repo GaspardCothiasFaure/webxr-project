@@ -12,7 +12,7 @@
 		<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
 	</head>
 	<body class="inline">
-		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
+		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: false">
 			
 
 			<!-- ASSETS -->
@@ -40,9 +40,6 @@
 			<a-entity visible="false" static-body rotation="0 0 0" id="goal" gltf-model="#goalObj" scale="0.0001 0.0001 0.0001" position="0 0 0"></a-entity>
 			<a-entity visible="false" dynamic-body rotation="0 0 0" id="ball" gltf-model="#ballObj" scale="10 10 10" position="0 0 0"></a-entity>
 		</a-scene>
-		<div>
-			<button></button>
-		</div>
 		<div id="overlay" class="container">
 			<p id="ins">Enter in AR mode</p>
 			<button id="go-button">Place goal on the arrow</button>
@@ -104,18 +101,11 @@
 
 				ball.setAttribute("visible", 'true');
 
-				const pose = e.detail.pose;
-				ball.body.position.copy(pose.transform.position);
-				// ball.body.position.y += 0.2;
-				tempVector.set(0, 0 ,-5);
-				tempVector.applyQuaternion(pose.transform.orientation);
+				ball.body.position.copy(arrow.getAttribute("position"));
+				ball.body.position.z -= 20;
+				tempVector.set(0, 0 ,-200);
+				// tempVector.applyQuaternion(0,0,0,5);
 				ball.body.velocity.copy(tempVector);
-
-				// ball.body.position.copy(arrow.getAttribute("position"));
-				// ball.body.position.z -= 20;
-				// tempVector.set(0, 0 ,-200);
-				// // tempVector.applyQuaternion(0,0,0,5);
-				// ball.body.velocity.copy(tempVector);
 			}
 
 		</script>
