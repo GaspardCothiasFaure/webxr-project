@@ -62,8 +62,9 @@ function init() {
                 function ( gltf ) {
                     goal = gltf.scene;
                     goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-                    goal.position.setFromMatrixPosition( reticle.matrix );
-                    console.log(goal.position)
+                    // goal.position.setFromMatrixPosition( reticle.matrix );
+                    goal.position.set( 0,0,0 );
+                    console.log(goal.position);
                 }
             );
         
