@@ -16,6 +16,8 @@ let reticle;
 let hitTestSource = null;
 let hitTestSourceRequested = false;
 
+
+
 init();
 animate();
 
@@ -46,7 +48,7 @@ function init() {
 
     //
 
-    let goalScale = {x:0.05, y:0.05, z:0.05};
+    let goalScale = {x:0.01, y:0.01, z:0.01};
 
     loader.load(
         
