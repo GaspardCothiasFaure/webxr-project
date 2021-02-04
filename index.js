@@ -3,7 +3,7 @@ import { ARButton } from './lib/ARButton.js';
 
 import { GLTFLoader } from './lib/GLTFLoader.js';
 
-let goal= new THREE.Object3D();
+let goal;
 
 
 const loader = new GLTFLoader();
@@ -49,6 +49,8 @@ function init() {
 
     const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
+    let goalScale = {x:1, y:1, z:1};
+
     function onSelect() {
 
         if ( reticle.visible ) {
@@ -58,28 +60,24 @@ function init() {
                 './assets/football_goal/scene.gltf',
                 
                 function ( gltf ) {
-                    field = gltf.scene.children[0];
-                    field.material = new THREE.MeshLambertMaterial();
-                    goal.add(field)
+                    goal = gltf.scene;
+                    goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
+                    goal.position.setFromMatrixPosition( reticle.matrix );
                 }
             );
         
         
-            let goalScale = {x:1, y:1, z:1};
-        
-            goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-            goal.position.setFromMatrixPosition( reticle.matrix );
-        
+            
         
             //////// RENDER
         
             scene.add(goal);
 
-            const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-            const mesh = new THREE.Mesh( geometry, material );
-            mesh.position.setFromMatrixPosition( reticle.matrix );
-            mesh.scale.y = Math.random() * 2 + 1;
-            scene.add( mesh );
+            // const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
+            // const mesh = new THREE.Mesh( geometry, material );
+            // mesh.position.setFromMatrixPosition( reticle.matrix );
+            // mesh.scale.y = Math.random() * 2 + 1;
+            // scene.add( mesh );
 
         }
 
