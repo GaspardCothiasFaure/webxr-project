@@ -49,7 +49,7 @@ function init() {
 
     const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
 
-    let goalScale = {x:1, y:1, z:1};
+    let goalScale = {x:0.1, y:0.1, z:0.1};
 
     function onSelect() {
 
@@ -63,6 +63,7 @@ function init() {
                     goal = gltf.scene;
                     goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
                     goal.position.setFromMatrixPosition( reticle.matrix );
+                    console.log(goal.position)
                 }
             );
         
