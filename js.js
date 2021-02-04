@@ -3,7 +3,7 @@ const reticle = document.querySelector("[ar-hit-test]");
 			const instructions = document.getElementById('instructions');
 			const ball = document.getElementById('ball');
 			const button = document.getElementById('go-button');
-			const exit = document.getElementById('exit-button');
+			// const exit = document.getElementById('exit-button');
 			const upVector = new THREE.Vector3(0, 1, 0);
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
@@ -24,19 +24,23 @@ const reticle = document.querySelector("[ar-hit-test]");
 			}
 
 			function positionHoop() {
+                
 				hoop.setAttribute("position", reticle.getAttribute("position"));
 				hoop.setAttribute("visible", true);
 				tempVector.set(0, 0 ,-1);
 				tempVector.applyQuaternion(reticle.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
 				hoop.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
-			};
+            };
+            
+        console.log(ball.body)
 
-			exit.addEventListener('click', function () {
-				scene.xrSession.end();
-			});
+			// exit.addEventListener('click', function () {
+			// 	scene.xrSession.end();
+			// });
 
 			scene.addEventListener("enter-vr", () => {
+                console.log("pass")
 				const domOverlay = hasDomOverlay(scene.xrSession);
 				document.getElementById('text').setAttribute('text', 'value', 'Overlay: ' + domOverlay);
 				document.body.classList.remove("inline");
@@ -62,11 +66,12 @@ const reticle = document.querySelector("[ar-hit-test]");
 			reticle.addEventListener('select', function (e) {
 				const domOverlay = hasDomOverlay(scene.xrSession);
 				if (document.body.classList.contains("playing")) {
-					const pose = e.detail.pose;
-					ball.body.position.copy(pose.transform.position);
-					// ball.body.position.y += 0.2;
+                    // const pose = e.detail.pose;
+					// ball.body.position.copy(pose.transform.position);
+					ball.body.position.copy("0 3 -1.5");
+					ball.body.position.y += 0.2;
 					tempVector.set(0, 0 ,-5);
-					tempVector.applyQuaternion(pose.transform.orientation);
+					tempVector.applyQuaternion(0,0,0,5);
 					ball.body.velocity.copy(tempVector);
 					return;
 				}
@@ -92,6 +97,7 @@ const reticle = document.querySelector("[ar-hit-test]");
 			});
 
 			function readyToStartPlay(e) {
+                
 				e.preventDefault();
 				if (hoop.getAttribute("visible") === false) {
 					positionHoop();

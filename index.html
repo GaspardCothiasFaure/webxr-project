@@ -12,9 +12,16 @@
 		<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
 	</head>
 	<body class="inline">
-		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: false">
-			<a-sphere id="ball" dynamic-body radius="0.1" color="orange" position="0.1 2.36 -1.5"></a-sphere>
-			<a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode> 
+		<a-scene>
+			<a-assets >
+			  <a-asset-item  id="tree" src="./assets/football_goal/scene.gltf"></a-asset-item>
+			</a-assets>
+		  
+			<a-entity gltf-model="#tree" scale="0.0001 0.0001 0.0001" position="0 0 -0.3"></a-entity>
+		  </a-scene>
+		<!-- <a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
+			<a-sphere id="ball" dynamic-body radius="0.1" color="orange" position="0 3 -1.5"></a-sphere>
+			<a-entity id="hoop" rotation="90 0 0" position="0 2 -1.8" hide-in-ar-mode>
 				<a-torus scale="0.6 0.6 0.6" position="0 0.173 -0.1" color="#43A367" radius="0.25" radius-tubular="0.005"></a-torus>
 				<a-torus scale="0.6 0.6 0.6" static-body="shape: mesh;" position="0 0.173 -0.1" visible="false" radius="0.27" radius-tubular="0.02" material="" geometry="radius: 0.29; segmentsRadial: 5; segmentsTubular: 12"></a-torus>
 				<a-plane
@@ -66,7 +73,6 @@
 				</section>
 				<div style="display: flex; justify-content: space-between; align-self: stretch;">
 					<button id="go-button">Ready to Play!</button>
-					<button id="exit-button">Stop AR</button>
 				</div>
 			</div>
 			<div id="inline-instructions">
@@ -75,8 +81,8 @@
 					<p>Enter AR to Start Playing</p>
 				</section>
 			</div>
-		</div>
+		</div> -->
 		<!-- <script type="module" src="index.js"></script> -->
-		<script type="module" src="js.js"></script>
+		<!-- <script type="module" src="js.js"></script> -->
 	</body>
 </html>
