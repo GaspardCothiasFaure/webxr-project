@@ -5,7 +5,6 @@ import { GLTFLoader } from './lib/GLTFLoader.js';
 
 let goal = new THREE.Object3D();
 
-
 const loader = new GLTFLoader();
 
 let container;
@@ -51,22 +50,23 @@ function init() {
 
     let goalScale = {x:0.1, y:0.1, z:0.1};
 
+    loader.load(
+        
+        './assets/football_goal/scene.gltf',
+        
+        function ( gltf ) {
+            goal = gltf.scene;
+            console.log("pass")
+        }
+    );
+
     function onSelect() {
 
         if ( reticle.visible ) {
 
-            loader.load(
-        
-                './assets/football_goal/scene.gltf',
-                
-                function ( gltf ) {
-                    goal = gltf.scene;
-                    goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
-                    // goal.position.setFromMatrixPosition( reticle.matrix );
-                    goal.position.set( 0,0,0 );
-                    console.log(goal.position);
-                }
-            );
+            goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
+            goal.position.setFromMatrixPosition( reticle.matrix );
+            console.log(goal.position);
         
         
             
