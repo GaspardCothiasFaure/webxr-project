@@ -46,7 +46,10 @@ function init() {
 
     //
 
-    let goalScale = {x:0.0005, y:0.0005, z:0.0005};
+    let goalScale = {x:0.001, y:0.001, z:0.001};
+    let ballScale = {x: 0.2, y: 0.2, z: 0.2};
+    // let ballRadius = 1000;
+
     let goal = new THREE.Object3D();
 
     loader.load(
@@ -55,23 +58,46 @@ function init() {
         
         function ( gltf ) {
             goal = gltf.scene;
-            console.log("pass")
         }
     );
 
+    let ball = new THREE.Object3D();
+
+    loader.load(
+        
+        './assets/soccer_ball/scene.gltf',
+        
+        function ( gltf ) {
+            ball = gltf.scene;
+        }
+    );
+
+    // let ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius,32, 32), new THREE.MeshPhongMaterial({color: 0xff0505}));
+    let state = true;
     function onSelect() {
 
-        if ( reticle.visible ) {
+        if ( reticle.visible && state) {
 
             goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
             goal.position.setFromMatrixPosition( reticle.matrix );
-            console.log(reticle.matrix);
-            console.log(goal.position);
+            goal.position.z=goal.position.z-10;
+
+
+            ball.scale.set(ballScale.x,ballScale.y,ballScale.z);
+            ball.position.setFromMatrixPosition( reticle.matrix );
+
+            scene.add(ball);
         
             scene.add(goal);
 
-            reticle.visible = false;
+            state=false;
 
+            var selectedObject = scene.getObjectByName("reticle");
+            scene.remove( selectedObject );
+
+        }
+        else{
+            makeGoal();
         }
 
     }
@@ -86,12 +112,17 @@ function init() {
     );
     reticle.matrixAutoUpdate = false;
     reticle.visible = false;
+    reticle.name = "reticle";
     scene.add( reticle );
 
     //
 
     window.addEventListener( 'resize', onWindowResize );
 
+}
+
+function makeGoal() {
+    console.log("goal")
 }
 
 function onWindowResize() {
