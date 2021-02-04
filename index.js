@@ -3,8 +3,6 @@ import { ARButton } from './lib/ARButton.js';
 
 import { GLTFLoader } from './lib/GLTFLoader.js';
 
-let goal = new THREE.Object3D();
-
 const loader = new GLTFLoader();
 
 let container;
@@ -48,7 +46,8 @@ function init() {
 
     //
 
-    let goalScale = {x:0.01, y:0.01, z:0.01};
+    let goalScale = {x:0.001, y:0.001, z:0.001};
+    let goal = new THREE.Object3D();
 
     loader.load(
         
