@@ -17,7 +17,7 @@
 				<a-asset-item  id="tree" src="./assets/football_goal/scene.gltf"></a-asset-item>
 			</a-assets>
 
-			<a-entity id="arrow" ar-hit-test="doHitTest:false" visible="true">
+			<a-entity id="arrow" ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
 					rotation="-90 0 0"
 					width="0.2"
@@ -35,7 +35,6 @@
 
 		<script>
 			const button = document.getElementById('go-button');
-			const reticle = document.querySelector("[ar-hit-test]");
 			const goal = document.getElementById('goal');
 			const arrow = document.getElementById('arrow');
 			const tempVector = new THREE.Vector3();
@@ -43,18 +42,22 @@
 			const scene = document.querySelector('a-scene');
 			const upVector = new THREE.Vector3(0, 1, 0);
 
+			arrow.setAttribute('ar-hit-test', 'doHitTest:true');
+			arrow.setAttribute('visible', 'true');
+
 			function fun(e) {
 
-				console.log("place")
-
 				e.preventDefault();
-				goal.setAttribute("position", reticle.getAttribute("position"));
+				goal.setAttribute("position", arrow.getAttribute("position"));
 				goal.setAttribute("visible", true);
-				arrow.setAttribute("visible", false);
+
+				arrow.setAttribute('ar-hit-test', 'doHitTest:false');
+				arrow.setAttribute("visible", 'false');
+
 				tempVector.set(0, 0 ,-1);
-				tempVector.applyQuaternion(reticle.object3D.quaternion);
+				tempVector.applyQuaternion(arrow.object3D.quaternion);
 				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				goal.object3D.quaternion.multiplyQuaternions(tempQuaternion, reticle.object3D.quaternion);
+				goal.object3D.quaternion.multiplyQuaternions(tempQuaternion, arrow.object3D.quaternion);
 			
 			}
 
