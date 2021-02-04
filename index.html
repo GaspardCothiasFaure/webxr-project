@@ -40,8 +40,12 @@
 			<a-entity visible="false" static-body rotation="0 0 0" id="goal" gltf-model="#goalObj" scale="0.0001 0.0001 0.0001" position="0 0 0"></a-entity>
 			<a-entity visible="false" dynamic-body rotation="0 0 0" id="ball" gltf-model="#ballObj" scale="10 10 10" position="0 0 0"></a-entity>
 		</a-scene>
+		<div>
+			<button></button>
+		</div>
 		<div id="overlay" class="container">
-			<button id="go-button">Place goal</button>
+			<p id="ins">Enter in AR mode</p>
+			<button id="go-button">Place goal on the arrow</button>
 			<button id="exit-button">Exit</button>
 		</div>
 
@@ -50,42 +54,36 @@
 			const exit = document.getElementById('exit-button');
 			const goal = document.getElementById('goal');
 			const ball = document.getElementById('ball');
+			const ins = document.getElementById('ins');
 			const arrow = document.getElementById('arrow');
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
 			const scene = document.querySelector('a-scene');
 			const upVector = new THREE.Vector3(0, 1, 0);
 
+
 			arrow.setAttribute('ar-hit-test', 'doHitTest:true');
 			arrow.setAttribute('visible', 'true');
 
-			
+			// button.style.visibility="hidden";
 
 			function fun(e) {
 
+				button.style.visibility="visible";
+				ins.style.visibility="hidden";
+
 				e.preventDefault();
 				goal.setAttribute("position", arrow.getAttribute("position"));
-				goal.body.position.z -= 20;
+				goal.body.position.z -= 100;
 					
 				goal.setAttribute("rotation","0 0 0");
-
-				goal.setAttribute("visible", true);
 
 				button.style.visibility="hidden";
 
 				arrow.setAttribute('ar-hit-test', 'doHitTest:false');
 				arrow.setAttribute("visible", 'false');
-
 				
-
-				
-				scene.addEventListener('select', kick);
-
-				// tempVector.set(0, 0 ,-1);
-				// tempVector.applyQuaternion(arrow.object3D.quaternion);
-				// tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				// goal.object3D.quaternion.multiplyQuaternions(tempQuaternion, arrow.object3D.quaternion);
-			
+				arrow.addEventListener('select', kick);
 			}
 
 			button.addEventListener('mousedown', fun);
@@ -100,20 +98,23 @@
 			}
 
 			function kick(e) {
+				console.log(e)
 				e.preventDefault();
 				console.log("kick");
 
 				ball.setAttribute("visible", 'true');
 
-				ball.body.position.copy(arrow.getAttribute("position"));
-				ball.body.position.z -= 20;
-				tempVector.set(0, 0 ,-100);
-				// tempVector.applyQuaternion(0,0,0,-5);
+				const pose = e.detail.pose;
+				ball.body.position.copy(pose.transform.position);
+				// ball.body.position.y += 0.2;
+				tempVector.set(0, 0 ,-5);
+				tempVector.applyQuaternion(pose.transform.orientation);
 				ball.body.velocity.copy(tempVector);
 
-				// tempVector.set(0, 0 ,-5);
-				// tempVector.applyQuaternion(0,0,0,5);
-
+				// ball.body.position.copy(arrow.getAttribute("position"));
+				// ball.body.position.z -= 20;
+				// tempVector.set(0, 0 ,-200);
+				// // tempVector.applyQuaternion(0,0,0,5);
 				// ball.body.velocity.copy(tempVector);
 			}
 
