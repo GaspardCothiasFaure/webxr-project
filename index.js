@@ -46,9 +46,7 @@ function init() {
 
     //
 
-    const geometry = new THREE.CylinderGeometry( 0.1, 0.1, 0.2, 32 ).translate( 0, 0.1, 0 );
-
-    let goalScale = {x:0.1, y:0.1, z:0.1};
+    let goalScale = {x:0.05, y:0.05, z:0.05};
 
     loader.load(
         
@@ -66,20 +64,10 @@ function init() {
 
             goal.scale.set(goalScale.x,goalScale.y,goalScale.z);
             goal.position.setFromMatrixPosition( reticle.matrix );
+            console.log(reticle.matrix);
             console.log(goal.position);
         
-        
-            
-        
-            //////// RENDER
-        
             scene.add(goal);
-
-            // const material = new THREE.MeshPhongMaterial( { color: 0xffffff * Math.random() } );
-            // const mesh = new THREE.Mesh( geometry, material );
-            // mesh.position.setFromMatrixPosition( reticle.matrix );
-            // mesh.scale.y = Math.random() * 2 + 1;
-            // scene.add( mesh );
 
         }
 
