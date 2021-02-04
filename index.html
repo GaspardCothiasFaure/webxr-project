@@ -12,12 +12,12 @@
 		<script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
 	</head>
 	<body class="inline">
-		<a-scene>
+		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
 			<a-assets >
 			  <a-asset-item  id="tree" src="./assets/football_goal/scene.gltf"></a-asset-item>
 			</a-assets>
 		  
-			<a-entity gltf-model="#tree" scale="0.0001 0.0001 0.0001" position="0 0 -0.3"></a-entity>
+			<a-entity gltf-model="#tree" scale="0.0001 0.0001 0.0001" position="0 1.5 -1.1"></a-entity>
 		  </a-scene>
 		<!-- <a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
 			<a-sphere id="ball" dynamic-body radius="0.1" color="orange" position="0 3 -1.5"></a-sphere>
