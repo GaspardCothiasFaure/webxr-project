@@ -46,7 +46,7 @@ function init() {
 
     //
 
-    let goalScale = {x:0.001, y:0.001, z:0.001};
+    let goalScale = {x:0.0005, y:0.0005, z:0.0005};
     let goal = new THREE.Object3D();
 
     loader.load(
@@ -69,6 +69,8 @@ function init() {
             console.log(goal.position);
         
             scene.add(goal);
+
+            reticle.visible = false;
 
         }
 
