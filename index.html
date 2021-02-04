@@ -13,9 +13,19 @@
 	</head>
 	<body class="inline">
 		<a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
+			
+
+			<!-- ASSETS -->
+
 			<a-assets >
-				<a-asset-item  id="tree" src="./assets/football_goal/scene.gltf"></a-asset-item>
+				<a-asset-item   id="goalObj" src="./assets/football_goal/scene.gltf"></a-asset-item>
 			</a-assets>
+			<a-assets >
+				<a-asset-item   id="ballObj" src="./assets/soccer_ball/scene.gltf"></a-asset-item>
+			</a-assets>
+
+
+			<!-- ELEMENTS -->
 
 			<a-entity id="arrow" ar-hit-test="doHitTest:false" visible="false">
 				<a-plane
@@ -27,15 +37,19 @@
 				></a-plane>
 			</a-entity>
 		  
-			<a-entity visible="false" id="goal" gltf-model="#tree" scale="0.0001 0.0001 0.0001" position="0 1.5 -1.1"></a-entity>
+			<a-entity visible="false" static-body rotation="0 0 0" id="goal" gltf-model="#goalObj" scale="0.0001 0.0001 0.0001" position="0 1.5 -1.1"></a-entity>
+			<a-entity visible="false" dynamic-body rotation="0 0 0" id="ball" gltf-model="#ballObj" scale="1 1 1" position="0 1.5 -1.1"></a-entity>
 		</a-scene>
 		<div id="overlay" class="container">
 			<button id="go-button">Place goal</button>
+			<button id="exit-button">Exit</button>
 		</div>
 
 		<script>
 			const button = document.getElementById('go-button');
+			const exit = document.getElementById('exit-button');
 			const goal = document.getElementById('goal');
+			const ball = document.getElementById('ball');
 			const arrow = document.getElementById('arrow');
 			const tempVector = new THREE.Vector3();
 			const tempQuaternion = new THREE.Quaternion();
@@ -45,24 +59,45 @@
 			arrow.setAttribute('ar-hit-test', 'doHitTest:true');
 			arrow.setAttribute('visible', 'true');
 
+			exit.style.visibility="hidden";
+
 			function fun(e) {
 
 				e.preventDefault();
 				goal.setAttribute("position", arrow.getAttribute("position"));
+				goal.body.position.z -= 9;
+				ball.setAttribute("position", arrow.getAttribute("position"));
+				
+				
+				goal.setAttribute("rotation","0 0 0");
+
 				goal.setAttribute("visible", true);
+				ball.setAttribute("visible", true);
+
+				button.style.visibility="hidden";
+				exit.style.visibility="visible";
 
 				arrow.setAttribute('ar-hit-test', 'doHitTest:false');
 				arrow.setAttribute("visible", 'false');
 
-				tempVector.set(0, 0 ,-1);
-				tempVector.applyQuaternion(arrow.object3D.quaternion);
-				tempQuaternion.setFromUnitVectors(tempVector, upVector);
-				goal.object3D.quaternion.multiplyQuaternions(tempQuaternion, arrow.object3D.quaternion);
+				// tempVector.set(0, 0 ,-1);
+				// tempVector.applyQuaternion(arrow.object3D.quaternion);
+				// tempQuaternion.setFromUnitVectors(tempVector, upVector);
+				// goal.object3D.quaternion.multiplyQuaternions(tempQuaternion, arrow.object3D.quaternion);
 			
 			}
 
 			button.addEventListener('mousedown', fun);
 			button.addEventListener('touchstart', fun);
+
+			exit.addEventListener('touchstart', exitFun);
+			exit.addEventListener('mousedown', exitFun);
+
+			function exitFun(e) {
+				e.preventDefault();
+				document.location.reload();
+			}
+
 		</script>
 		<!-- <a-scene webxr="optionalFeatures: hit-test, dom-overlay; overlayElement:#overlay;" physics="debug: true">
 			<a-sphere id="ball" dynamic-body radius="0.1" color="orange" position="0 3 -1.5"></a-sphere>
