@@ -76,8 +76,16 @@
 				arrow.setAttribute('ar-hit-test', 'doHitTest:false');
 				arrow.setAttribute("visible", 'false');
 
+				ball.setAttribute("visible", 'true');
+
+				ball.body.position.copy(arrow.getAttribute("position"));
+				ball.body.position.z -= 20;
+				tempVector.set(0, 0 ,-100);
+				// tempVector.applyQuaternion(0,0,0,-5);
+				ball.body.velocity.copy(tempVector);
+
 				
-				scene.addEventListener('select', kick);
+				// scene.addEventListener('select', kick);
 
 				// tempVector.set(0, 0 ,-1);
 				// tempVector.applyQuaternion(arrow.object3D.quaternion);
