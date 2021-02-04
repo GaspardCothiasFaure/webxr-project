@@ -61,18 +61,9 @@ function init() {
         }
     );
 
-    let ball = new THREE.Object3D();
 
-    loader.load(
-        
-        './assets/soccer_ball/scene.gltf',
-        
-        function ( gltf ) {
-            ball = gltf.scene;
-        }
-    );
-
-    // let ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius,32, 32), new THREE.MeshPhongMaterial({color: 0xff0505}));
+    let ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius,32, 32), new THREE.MeshPhongMaterial({color: 0xff0505}));
+    
     let state = true;
     function onSelect() {
 
